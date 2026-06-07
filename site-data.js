@@ -1,9 +1,27 @@
 window.MR_SITE_DATA = {
   "settings": {
-    "phone": "0779813849",
-    "whatsapp": "213779813849"
+    "phone": "0000000000000000",
+    "whatsapp": "00000000000000000"
   },
   "products": [
+    {
+      "name": "بكنب",
+      "category": "ىسبىلي",
+      "price": "5000",
+      "oldPrice": "9900",
+      "discount": "20",
+      "image": "https://thf.bing.com/th/id/OIP.Vi2PPxof8JqJRozi0bxxIAHaHa?w=161&h=180&c=7&r=0&o=7&cb=thfc1falcon2&dpr=1.3&pid=1.7&rm=3",
+      "description": "-نهفتغةغنقب"
+    },
+    {
+      "name": "مرطب",
+      "category": "عناية",
+      "price": "5000",
+      "oldPrice": "9900",
+      "discount": "49",
+      "image": "https://thf.bing.com/th/id/OIP.Vi2PPxof8JqJRozi0bxxIAHaHa?w=161&h=180&c=7&r=0&o=7&cb=thfc1falcon2&dpr=1.3&pid=1.7&rm=3",
+      "description": "مرطب راىْع"
+    },
     {
       "name": "pomade",
       "category": "cosmiteque",
