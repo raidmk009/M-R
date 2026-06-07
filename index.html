@@ -11,6 +11,7 @@
     <meta property="og:title" content="M-R | متجر إلكتروني فاخر" />
     <meta property="og:description" content="منتجات مميزة، طلب بسيط، وتجربة شراء احترافية." />
     <meta property="og:type" content="website" />
+    <script src="site-data.js"></script>
     <style>
       :root {
         --ink: #09090b;
@@ -719,49 +720,12 @@
       <button class="top" type="button" onclick="window.scrollTo({top:0, behavior:'smooth'})" aria-label="الرجوع للأعلى">↑</button>
     </div>
     <script>
-      const defaultSettings = {
+      const defaultSettings = window.MR_SITE_DATA?.settings || {
         phone: "0550 00 00 00",
         whatsapp: "213550000000"
       };
 
-      const defaultProducts = [
-        {
-          name: "ساعة M-R الذكية",
-          category: "إلكترونيات",
-          price: "8,900 دج",
-          oldPrice: "11,900 دج",
-          discount: "خصم 25%",
-          image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=85",
-          description: "ساعة ذكية بتصميم فاخر، شاشة واضحة، تتبع صحي، وبطارية تدوم طويلاً."
-        },
-        {
-          name: "سماعات عزل الضجيج",
-          category: "إلكترونيات",
-          price: "7,600 دج",
-          oldPrice: "9,300 دج",
-          discount: "خصم 18%",
-          image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=85",
-          description: "سماعات لاسلكية بصوت غني وعزل ضجيج فعال، مناسبة للعمل والسفر."
-        },
-        {
-          name: "حقيبة جلد يومية",
-          category: "إكسسوارات",
-          price: "5,400 دج",
-          oldPrice: "",
-          discount: "",
-          image: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=900&q=85",
-          description: "حقيبة عملية بخامة جلدية أنيقة، تناسب الاستخدام اليومي والهدايا."
-        },
-        {
-          name: "مجموعة عناية فاخرة",
-          category: "عناية",
-          price: "6,200 دج",
-          oldPrice: "",
-          discount: "",
-          image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=900&q=85",
-          description: "مجموعة عناية يومية بتغليف أنيق ومكونات لطيفة ومناسبة كهدية."
-        }
-      ];
+      const defaultProducts = window.MR_SITE_DATA?.products || [];
 
       function readJson(key, fallback) {
         try {

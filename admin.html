@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>إدارة M-R</title>
+    <script src="site-data.js"></script>
     <style>
       :root {
         --ink: #09090b;
@@ -203,7 +204,12 @@
       <section class="panel">
         <h1>إدارة الموقع</h1>
         <p>هذه اللوحة تعمل بدون سيرفر. أي تغيير تحفظه سيظهر في `index.html` على نفس المتصفح والجهاز.</p>
+        <p>بعد التعديل اضغط على زر تصدير ملف الموقع، ثم ارفع ملف `site-data.js` الجديد إلى GitHub.</p>
         <div class="notice" id="notice">تم الحفظ بنجاح.</div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px">
+          <button class="btn btn-gold" type="button" id="exportButton">تصدير ملف الموقع</button>
+          <button class="btn" type="button" id="resetButton">استرجاع البيانات الأصلية</button>
+        </div>
       </section>
 
       <section class="panel">
@@ -271,49 +277,12 @@
     </main>
 
     <script>
-      const defaultSettings = {
+      const defaultSettings = window.MR_SITE_DATA?.settings || {
         phone: "0550 00 00 00",
         whatsapp: "213550000000"
       };
 
-      const defaultProducts = [
-        {
-          name: "ساعة M-R الذكية",
-          category: "إلكترونيات",
-          price: "8,900 دج",
-          oldPrice: "11,900 دج",
-          discount: "خصم 25%",
-          image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=85",
-          description: "ساعة ذكية بتصميم فاخر، شاشة واضحة، تتبع صحي، وبطارية تدوم طويلاً."
-        },
-        {
-          name: "سماعات عزل الضجيج",
-          category: "إلكترونيات",
-          price: "7,600 دج",
-          oldPrice: "9,300 دج",
-          discount: "خصم 18%",
-          image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=85",
-          description: "سماعات لاسلكية بصوت غني وعزل ضجيج فعال، مناسبة للعمل والسفر."
-        },
-        {
-          name: "حقيبة جلد يومية",
-          category: "إكسسوارات",
-          price: "5,400 دج",
-          oldPrice: "",
-          discount: "",
-          image: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=900&q=85",
-          description: "حقيبة عملية بخامة جلدية أنيقة، تناسب الاستخدام اليومي والهدايا."
-        },
-        {
-          name: "مجموعة عناية فاخرة",
-          category: "عناية",
-          price: "6,200 دج",
-          oldPrice: "",
-          discount: "",
-          image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=900&q=85",
-          description: "مجموعة عناية يومية بتغليف أنيق ومكونات لطيفة ومناسبة كهدية."
-        }
-      ];
+      const defaultProducts = window.MR_SITE_DATA?.products || [];
 
       function readJson(key, fallback) {
         try {
@@ -333,6 +302,24 @@
         setTimeout(() => {
           notice.style.display = "none";
         }, 1800);
+      }
+
+      function getCurrentSiteData() {
+        return {
+          settings: readJson("mr_settings", defaultSettings),
+          products: getProducts()
+        };
+      }
+
+      function downloadSiteData() {
+        const data = getCurrentSiteData();
+        const fileContent = `window.MR_SITE_DATA = ${JSON.stringify(data, null, 2)};\n`;
+        const blob = new Blob([fileContent], { type: "text/javascript;charset=utf-8" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "site-data.js";
+        link.click();
+        URL.revokeObjectURL(link.href);
       }
 
       function loadSettings() {
@@ -438,6 +425,17 @@
       });
 
       document.getElementById("clearFormButton").addEventListener("click", clearProductForm);
+
+      document.getElementById("exportButton").addEventListener("click", downloadSiteData);
+
+      document.getElementById("resetButton").addEventListener("click", () => {
+        if (!confirm("هل تريد حذف التعديلات المحلية والعودة إلى البيانات الموجودة في site-data.js؟")) return;
+        localStorage.removeItem("mr_settings");
+        localStorage.removeItem("mr_products");
+        loadSettings();
+        renderProducts();
+        showNotice();
+      });
 
       loadSettings();
       renderProducts();
