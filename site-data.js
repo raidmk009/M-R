@@ -1,7 +1,11 @@
 window.MR_SITE_DATA = {
   "settings": {
     "phone": "0779813849",
-    "whatsapp": "213779813849"
+    "whatsapp": "213779813849",
+    "email": "contact@gmail.com",
+    "facebook": "https://facebook.com/",
+    "instagram": "https://instagram.com/",
+    "tiktok": "https://tiktok.com/"
   },
   "products": [
     {

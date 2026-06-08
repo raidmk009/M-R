@@ -223,7 +223,23 @@
             رقم واتساب بصيغة دولية
             <input id="whatsappInput" required placeholder="213550000000" />
           </label>
-          <button class="btn btn-dark" type="submit">حفظ الأرقام</button>
+          <label>
+            Gmail
+            <input id="emailInput" required type="email" placeholder="contact@gmail.com" />
+          </label>
+          <label>
+            رابط Facebook
+            <input id="facebookInput" placeholder="https://facebook.com/..." />
+          </label>
+          <label>
+            رابط Instagram
+            <input id="instagramInput" placeholder="https://instagram.com/..." />
+          </label>
+          <label>
+            رابط TikTok
+            <input id="tiktokInput" placeholder="https://tiktok.com/@..." />
+          </label>
+          <button class="btn btn-dark" type="submit">حفظ الأرقام والروابط</button>
         </form>
       </section>
 
@@ -279,7 +295,11 @@
     <script>
       const defaultSettings = window.MR_SITE_DATA?.settings || {
         phone: "0550 00 00 00",
-        whatsapp: "213550000000"
+        whatsapp: "213550000000",
+        email: "contact@gmail.com",
+        facebook: "https://facebook.com/",
+        instagram: "https://instagram.com/",
+        tiktok: "https://tiktok.com/"
       };
 
       const defaultProducts = window.MR_SITE_DATA?.products || [];
@@ -326,6 +346,10 @@
         const settings = readJson("mr_settings", defaultSettings);
         document.getElementById("phoneInput").value = settings.phone || "";
         document.getElementById("whatsappInput").value = settings.whatsapp || "";
+        document.getElementById("emailInput").value = settings.email || "";
+        document.getElementById("facebookInput").value = settings.facebook || "";
+        document.getElementById("instagramInput").value = settings.instagram || "";
+        document.getElementById("tiktokInput").value = settings.tiktok || "";
       }
 
       function getProducts() {
@@ -393,7 +417,11 @@
         event.preventDefault();
         saveJson("mr_settings", {
           phone: document.getElementById("phoneInput").value,
-          whatsapp: document.getElementById("whatsappInput").value
+          whatsapp: document.getElementById("whatsappInput").value,
+          email: document.getElementById("emailInput").value,
+          facebook: document.getElementById("facebookInput").value,
+          instagram: document.getElementById("instagramInput").value,
+          tiktok: document.getElementById("tiktokInput").value
         });
         showNotice();
       });

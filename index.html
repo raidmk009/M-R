@@ -472,7 +472,6 @@
         <nav class="links" aria-label="التنقل الرئيسي">
           <a href="#home">الرئيسية</a>
           <a href="#products">المنتجات</a>
-          <a href="#features">المزايا</a>
           <a href="#faq">الأسئلة</a>
         </nav>
       </div>
@@ -487,7 +486,6 @@
             <p>منتجات مختارة بعناية، تجربة شراء سريعة، وتوصيل موثوق إلى باب منزلك في أقل عدد ممكن من الخطوات.</p>
             <div class="actions">
               <a class="btn btn-dark" href="#products">اطلب الآن</a>
-              <a class="btn btn-light" href="#features">مزايا المتجر</a>
             </div>
           </div>
         </div>
@@ -519,7 +517,6 @@
                     <div class="old">11,900 دج</div>
                   </div>
                   <div class="mini-actions">
-                    <a class="icon-btn" href="#details">+</a>
                     <a class="icon-btn" href="#order">🛒</a>
                   </div>
                 </div>
@@ -541,7 +538,6 @@
                     <div class="old">9,300 دج</div>
                   </div>
                   <div class="mini-actions">
-                    <a class="icon-btn" href="#details">+</a>
                     <a class="icon-btn" href="#order">🛒</a>
                   </div>
                 </div>
@@ -559,7 +555,6 @@
                 <div class="price-row">
                   <div class="price">5,400 دج</div>
                   <div class="mini-actions">
-                    <a class="icon-btn" href="#details">+</a>
                     <a class="icon-btn" href="#order">🛒</a>
                   </div>
                 </div>
@@ -577,63 +572,11 @@
                 <div class="price-row">
                   <div class="price">6,200 دج</div>
                   <div class="mini-actions">
-                    <a class="icon-btn" href="#details">+</a>
                     <a class="icon-btn" href="#order">🛒</a>
                   </div>
                 </div>
               </div>
             </article>
-          </div>
-        </div>
-      </section>
-
-      <section id="features" class="section section-white">
-        <div class="container grid features">
-          <div class="feature">
-            <div class="mark">✓</div>
-            <h3>اختيار فاخر</h3>
-            <p class="desc">منتجات منتقاة بجودة عالية وتفاصيل واضحة قبل الشراء.</p>
-          </div>
-          <div class="feature">
-            <div class="mark">✓</div>
-            <h3>توصيل موثوق</h3>
-            <p class="desc">متابعة الطلب من لحظة التسجيل إلى التسليم.</p>
-          </div>
-          <div class="feature">
-            <div class="mark">✓</div>
-            <h3>طلب آمن</h3>
-            <p class="desc">نموذج مختصر يتحقق من البيانات قبل إرسال الطلب.</p>
-          </div>
-        </div>
-      </section>
-
-      <section id="details" class="section">
-        <div class="container">
-          <div class="section-title">
-            <div>
-              <div class="eyebrow">تفاصيل المنتج</div>
-              <h2>تجربة عرض احترافية</h2>
-            </div>
-          </div>
-          <div class="grid features">
-            <div class="card">
-              <div class="card-body">
-                <h3>معرض صور</h3>
-                <p class="desc">يدعم المشروع الأساسي معرض صور متعدد وتكبير الصورة داخل صفحة تفاصيل المنتج.</p>
-              </div>
-            </div>
-            <div class="card">
-              <div class="card-body">
-                <h3>مواصفات ومميزات</h3>
-                <p class="desc">كل منتج يحتوي على وصف كامل، مواصفات، مميزات، سعر، ومخزون.</p>
-              </div>
-            </div>
-            <div class="card">
-              <div class="card-body">
-                <h3>قابل للتوسع</h3>
-                <p class="desc">تم تجهيز مشروع Next.js مع Prisma لإضافة عدد غير محدود من المنتجات لاحقاً.</p>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -710,8 +653,14 @@
         <div>
           <h3>تواصل معنا</h3>
           <p id="footerPhone">0550 00 00 00</p>
-          <p>contact@mr-store.dz</p>
-          <p>Instagram · Facebook · TikTok</p>
+          <p id="footerEmail">contact@gmail.com</p>
+          <p>
+            <a id="instagramLink" href="https://instagram.com/">Instagram</a>
+            ·
+            <a id="facebookLink" href="https://facebook.com/">Facebook</a>
+            ·
+            <a id="tiktokLink" href="https://tiktok.com/">TikTok</a>
+          </p>
         </div>
       </div>
       <div class="copyright">© 2026 M-R. جميع الحقوق محفوظة.</div>
@@ -725,7 +674,11 @@
     <script>
       const defaultSettings = window.MR_SITE_DATA?.settings || {
         phone: "0550 00 00 00",
-        whatsapp: "213550000000"
+        whatsapp: "213550000000",
+        email: "contact@gmail.com",
+        facebook: "https://facebook.com/",
+        instagram: "https://instagram.com/",
+        tiktok: "https://tiktok.com/"
       };
 
       const defaultProducts = window.MR_SITE_DATA?.products || [];
@@ -763,7 +716,6 @@
                   ${product.oldPrice ? `<div class="old">${product.oldPrice}</div>` : ""}
                 </div>
                 <div class="mini-actions">
-                  <a class="icon-btn" href="#details">+</a>
                   <a class="icon-btn order-product" href="#order" data-product="${product.name || "غير محدد"}">🛒</a>
                 </div>
               </div>
@@ -775,12 +727,20 @@
       function applySettings() {
         const settings = readJson("mr_settings", defaultSettings);
         const footerPhone = document.getElementById("footerPhone");
+        const footerEmail = document.getElementById("footerEmail");
         const callButton = document.getElementById("callButton");
         const whatsappButton = document.getElementById("whatsappButton");
+        const facebookLink = document.getElementById("facebookLink");
+        const instagramLink = document.getElementById("instagramLink");
+        const tiktokLink = document.getElementById("tiktokLink");
 
         if (footerPhone) footerPhone.textContent = settings.phone || defaultSettings.phone;
+        if (footerEmail) footerEmail.textContent = settings.email || defaultSettings.email;
         if (callButton) callButton.href = `tel:${cleanPhone(settings.phone || defaultSettings.phone)}`;
         if (whatsappButton) whatsappButton.href = `https://wa.me/${cleanPhone(settings.whatsapp || defaultSettings.whatsapp)}`;
+        if (facebookLink) facebookLink.href = settings.facebook || defaultSettings.facebook;
+        if (instagramLink) instagramLink.href = settings.instagram || defaultSettings.instagram;
+        if (tiktokLink) tiktokLink.href = settings.tiktok || defaultSettings.tiktok;
       }
 
       function setSelectedProduct(productName) {
