@@ -474,7 +474,6 @@
           <a href="#products">المنتجات</a>
           <a href="#features">المزايا</a>
           <a href="#faq">الأسئلة</a>
-          <a href="admin.html">الإدارة</a>
         </nav>
       </div>
     </header>
@@ -643,17 +642,17 @@
         <div class="container" style="max-width: 760px">
           <div class="eyebrow">طلب سريع</div>
           <h2>أدخل بيانات التوصيل</h2>
-          <form class="card" style="padding: 24px; margin-top: 24px" onsubmit="event.preventDefault(); document.getElementById('success').style.display='block'; this.reset();">
+          <form class="card" id="orderForm" style="padding: 24px; margin-top: 24px">
             <div id="success" style="display: none; margin-bottom: 14px; border-radius: 8px; background: #dcfce7; color: #166534; padding: 14px; font-weight: 900;">
               تم استلام طلبك بنجاح. سيتواصل معك فريق M-R قريباً.
             </div>
             <div class="grid" style="gap: 14px">
-              <input required minlength="3" placeholder="الاسم الكامل" style="min-height: 48px; border: 1px solid var(--line); border-radius: 8px; padding: 0 14px" />
-              <input required pattern="^[0-9 +]{9,16}$" placeholder="رقم الهاتف" style="min-height: 48px; border: 1px solid var(--line); border-radius: 8px; padding: 0 14px" />
-              <input required placeholder="الولاية" style="min-height: 48px; border: 1px solid var(--line); border-radius: 8px; padding: 0 14px" />
-              <input required placeholder="البلدية" style="min-height: 48px; border: 1px solid var(--line); border-radius: 8px; padding: 0 14px" />
-              <input required minlength="6" placeholder="العنوان الكامل" style="min-height: 48px; border: 1px solid var(--line); border-radius: 8px; padding: 0 14px" />
-              <input required min="1" value="1" type="number" placeholder="الكمية" style="min-height: 48px; border: 1px solid var(--line); border-radius: 8px; padding: 0 14px" />
+              <input required minlength="3" name="fullName" placeholder="الاسم الكامل" style="min-height: 48px; border: 1px solid var(--line); border-radius: 8px; padding: 0 14px" />
+              <input required pattern="^[0-9 +]{9,16}$" name="phone" placeholder="رقم الهاتف" style="min-height: 48px; border: 1px solid var(--line); border-radius: 8px; padding: 0 14px" />
+              <input required name="wilaya" placeholder="الولاية" style="min-height: 48px; border: 1px solid var(--line); border-radius: 8px; padding: 0 14px" />
+              <input required name="commune" placeholder="البلدية" style="min-height: 48px; border: 1px solid var(--line); border-radius: 8px; padding: 0 14px" />
+              <input required minlength="6" name="address" placeholder="العنوان الكامل" style="min-height: 48px; border: 1px solid var(--line); border-radius: 8px; padding: 0 14px" />
+              <input required min="1" value="1" type="number" name="quantity" placeholder="الكمية" style="min-height: 48px; border: 1px solid var(--line); border-radius: 8px; padding: 0 14px" />
               <button class="btn btn-dark" type="submit">تأكيد الطلب</button>
             </div>
           </form>
@@ -780,8 +779,34 @@
         if (whatsappButton) whatsappButton.href = `https://wa.me/${cleanPhone(settings.whatsapp || defaultSettings.whatsapp)}`;
       }
 
+      function handleOrderSubmit(event) {
+        event.preventDefault();
+        const form = event.currentTarget;
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+
+        const settings = readJson("mr_settings", defaultSettings);
+        const formData = new FormData(form);
+        const message = [
+          "طلب جديد من موقع M-R",
+          `الاسم الكامل: ${formData.get("fullName")}`,
+          `رقم الهاتف: ${formData.get("phone")}`,
+          `الولاية: ${formData.get("wilaya")}`,
+          `البلدية: ${formData.get("commune")}`,
+          `العنوان الكامل: ${formData.get("address")}`,
+          `الكمية: ${formData.get("quantity")}`
+        ].join("\n");
+
+        document.getElementById("success").style.display = "block";
+        window.open(`https://wa.me/${cleanPhone(settings.whatsapp || defaultSettings.whatsapp)}?text=${encodeURIComponent(message)}`, "_blank");
+        form.reset();
+      }
+
       renderProducts();
       applySettings();
+      document.getElementById("orderForm").addEventListener("submit", handleOrderSubmit);
     </script>
   </body>
 </html>
