@@ -644,9 +644,13 @@
           <h2>أدخل بيانات التوصيل</h2>
           <form class="card" id="orderForm" style="padding: 24px; margin-top: 24px">
             <div id="success" style="display: none; margin-bottom: 14px; border-radius: 8px; background: #dcfce7; color: #166534; padding: 14px; font-weight: 900;">
-              تم استلام طلبك بنجاح. سيتواصل معك فريق M-R قريباً.
+              تم تجهيز الطلب. سيتم فتح واتساب لإرساله إلى المتجر.
             </div>
             <div class="grid" style="gap: 14px">
+              <input type="hidden" name="productName" id="selectedProductInput" value="غير محدد" />
+              <div id="selectedProductText" style="border-radius: 8px; background: #f7f7f4; padding: 13px 14px; font-weight: 900;">
+                المنتج المطلوب: غير محدد
+              </div>
               <input required minlength="3" name="fullName" placeholder="الاسم الكامل" style="min-height: 48px; border: 1px solid var(--line); border-radius: 8px; padding: 0 14px" />
               <input required pattern="^[0-9 +]{9,16}$" name="phone" placeholder="رقم الهاتف" style="min-height: 48px; border: 1px solid var(--line); border-radius: 8px; padding: 0 14px" />
               <input required name="wilaya" placeholder="الولاية" style="min-height: 48px; border: 1px solid var(--line); border-radius: 8px; padding: 0 14px" />
@@ -760,7 +764,7 @@
                 </div>
                 <div class="mini-actions">
                   <a class="icon-btn" href="#details">+</a>
-                  <a class="icon-btn" href="#order">🛒</a>
+                  <a class="icon-btn order-product" href="#order" data-product="${product.name || "غير محدد"}">🛒</a>
                 </div>
               </div>
             </div>
@@ -779,6 +783,23 @@
         if (whatsappButton) whatsappButton.href = `https://wa.me/${cleanPhone(settings.whatsapp || defaultSettings.whatsapp)}`;
       }
 
+      function setSelectedProduct(productName) {
+        const selectedProductInput = document.getElementById("selectedProductInput");
+        const selectedProductText = document.getElementById("selectedProductText");
+        const cleanProductName = productName || "غير محدد";
+
+        if (selectedProductInput) selectedProductInput.value = cleanProductName;
+        if (selectedProductText) selectedProductText.textContent = `المنتج المطلوب: ${cleanProductName}`;
+      }
+
+      function bindProductButtons() {
+        document.querySelectorAll(".order-product").forEach((button) => {
+          button.addEventListener("click", () => {
+            setSelectedProduct(button.dataset.product);
+          });
+        });
+      }
+
       function handleOrderSubmit(event) {
         event.preventDefault();
         const form = event.currentTarget;
@@ -791,6 +812,7 @@
         const formData = new FormData(form);
         const message = [
           "طلب جديد من موقع M-R",
+          `المنتج: ${formData.get("productName")}`,
           `الاسم الكامل: ${formData.get("fullName")}`,
           `رقم الهاتف: ${formData.get("phone")}`,
           `الولاية: ${formData.get("wilaya")}`,
@@ -800,12 +822,14 @@
         ].join("\n");
 
         document.getElementById("success").style.display = "block";
-        window.open(`https://wa.me/${cleanPhone(settings.whatsapp || defaultSettings.whatsapp)}?text=${encodeURIComponent(message)}`, "_blank");
+        window.location.href = `https://wa.me/${cleanPhone(settings.whatsapp || defaultSettings.whatsapp)}?text=${encodeURIComponent(message)}`;
         form.reset();
+        setSelectedProduct("غير محدد");
       }
 
       renderProducts();
       applySettings();
+      bindProductButtons();
       document.getElementById("orderForm").addEventListener("submit", handleOrderSubmit);
     </script>
   </body>
