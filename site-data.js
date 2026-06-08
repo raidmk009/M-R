@@ -1,7 +1,7 @@
 window.MR_SITE_DATA = {
   "settings": {
-    "phone": "0000000000000000",
-    "whatsapp": "00000000000000000"
+    "phone": "0779813849",
+    "whatsapp": "213779813849"
   },
   "products": [
     {
