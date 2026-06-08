@@ -4,8 +4,7 @@ import { storeSettings } from "@/lib/data";
 
 const navItems = [
   { href: "/", label: "الرئيسية" },
-  { href: "/products", label: "المنتجات" },
-  { href: "/admin", label: "لوحة الإدارة" }
+  { href: "/products", label: "المنتجات" }
 ];
 
 export function Header() {
